@@ -77,6 +77,8 @@ words[5] = [
 'Schvitzing', 'Scuzzballs', 'Sexualized', 'Shemozzled', 'Shemozzles', 'Showjumper', 'Sjambokked', 'Skyjackers', 'Skyjacking', 'Snazziness', 'Squeezable', 'Squeezebox', 'Squeeziest', 'Squirarchy', 'Strawberry', 'Subjectify', 'Supplejack', 'Symbolized', 'Symptomize', 'Synonymize', 'Syphilized', 'Syphilizes', 'Tetrazzini', 'Texturized', 'Trihydroxy', 'Undazzling', 'Unmuzzling', 'Unoxidized', 'Unpuzzling', 'Vampirized', 'Victimized', 'Viziership', 'Vizirships', 'Whizzbangs', 'Whizzingly', 'Xanthophyl', 'Xerophytic', 'Xiphopagic', 'Xylophonic', 'Youthquake', 'Zeaxanthin', 'Zigzaggers', 'Zigzaggery', 'Zigzagging', 'Zincifying', 'Zombifying', 'Zoomorphic', 'Zygobranch', 'Zygodactyl', 'Zygomorphy', 'Zygomycete', 'Zygophytes'
 ]
 
+
+log = False
 hard = input("Hard mode (Y/N): ")
 if hard.lower() == "y":
     n = 6
@@ -116,7 +118,7 @@ del(start)
 
 correct_words = 0
 tic = time.time()
-i = 0
+i, user_input = 0, []
 for word in register:
     i += 1
     word = word.replace(" ","")
@@ -124,6 +126,7 @@ for word in register:
     inp = input(">>> ")
     if inp.lower() == word.lower():
         correct_words += 1
+    user_input.append(inp)
     toc = time.time()
     timem = (toc - tic)/60
     print(f"\nspeed = {int(correct_words/timem)} words/min @{toc-tic}s")
@@ -131,7 +134,17 @@ toc = time.time()
 timem = (toc - tic)/60
 newline()
 
-print(f"{timem*60}s")
-print(f"Net Typing speed: {int(correct_words/timem)} words/min")
-print(f"Gross Typing speed: {int(len(register)/timem)} words/min")
-print(f"Accuracy: {(correct_words/len(register))*100}%")
+chars = 0
+for i in range(6):
+    chars += (5+i)*int(2**(n-i-1))
+
+charv = 0
+for inp in user_input:
+    charv += len(inp)
+
+print(f"Total Time: {timem*60}s.")
+print(f"Net Typing speed: {int(correct_words/timem)} words/min.")
+print(f"Gross Typing speed: {int(len(register)/timem)} words/min.")
+print(f"Net Accuracy: {(correct_words/len(register))*100}% of words.")
+print(f"Characters per minute: {charv/timem} cpm.")
+print(f"Character Ratio: {charv/chars}.")
