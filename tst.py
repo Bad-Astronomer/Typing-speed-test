@@ -1,6 +1,28 @@
 import random
 import matplotlib.pyplot as plt
+import time
 
+
+def devlog():
+    print(register)
+    print(len(register))
+
+    wlen = [0 for i in range(11)]
+    for word in register:
+        for i in range(6):
+            if len(word) == i+6:
+                wlen[i+5] += 1
+
+    for i in range(6):
+        print(f"{i+5} letter words: {wlen[i+5]}")
+
+    plt.plot(wlen)
+    plt.xlabel("Length of the words")
+    plt.ylabel("Number of words")
+    plt.show()
+
+def newline():
+    print("_"*100+"\n")
 
 words = [[],[],[],[],[],[]]
 
@@ -55,28 +77,61 @@ words[5] = [
 'Schvitzing', 'Scuzzballs', 'Sexualized', 'Shemozzled', 'Shemozzles', 'Showjumper', 'Sjambokked', 'Skyjackers', 'Skyjacking', 'Snazziness', 'Squeezable', 'Squeezebox', 'Squeeziest', 'Squirarchy', 'Strawberry', 'Subjectify', 'Supplejack', 'Symbolized', 'Symptomize', 'Synonymize', 'Syphilized', 'Syphilizes', 'Tetrazzini', 'Texturized', 'Trihydroxy', 'Undazzling', 'Unmuzzling', 'Unoxidized', 'Unpuzzling', 'Vampirized', 'Victimized', 'Viziership', 'Vizirships', 'Whizzbangs', 'Whizzingly', 'Xanthophyl', 'Xerophytic', 'Xiphopagic', 'Xylophonic', 'Youthquake', 'Zeaxanthin', 'Zigzaggers', 'Zigzaggery', 'Zigzagging', 'Zincifying', 'Zombifying', 'Zoomorphic', 'Zygobranch', 'Zygodactyl', 'Zygomorphy', 'Zygomycete', 'Zygophytes'
 ]
 
+hard = input("Hard mode (Y/N): ")
+if hard.lower() == "y":
+    n = 6
+elif hard.lower() == "log hard":
+    n = 6
+    log = True
+elif hard.lower().replace(" ","") == "log":
+    n = 5
+    log = True
+elif hard.lower() == "log easy":
+    n = 4
+    log = True
+else:
+    easy = input("Easy mode (Y/N): ")
+    if easy.lower() == "y":
+        n = 4
+    else:
+        n = 5
+
+jvalue = 2**(n-1)
 
 register = []
-jvalue = 32
 for i in range(len(words)):
     for j in range(jvalue):
         index = int(random.random()*len(words[i]))
-        register.append(words[i][index])
-    jvalue = int(jvalue/2)
+        register.append(f"{words[i][index]} ")
+    jvalue = int(jvalue//2)
+parra = "".join(register)
 
-print(register)
-print(len(register))
+if log:
+    devlog()
+    quit()
 
-wlen = [0 for i in range(11)]
+newline()
+start = input("Enter anything to start.")
+del(start)
+
+correct_words = 0
+tic = time.time()
+i = 0
 for word in register:
-    for i in range(6):
-        if len(word) == i+5:
-            wlen[i+5] += 1
+    i += 1
+    word = word.replace(" ","")
+    print(f"WORD({i}/{len(register)})): {word.upper()}")
+    inp = input(">>> ")
+    if inp.lower() == word.lower():
+        correct_words += 1
+    toc = time.time()
+    timem = (toc - tic)/60
+    print(f"\nspeed = {int(correct_words/timem)} words/min @{toc-tic}s")
+toc = time.time()
+timem = (toc - tic)/60
+newline()
 
-for i in range(6):
-    print(f"{i+5} letter words: {wlen[i+5]}")
-
-plt.plot(wlen)
-plt.xlabel("Length of the words")
-plt.ylabel("Number of words")
-plt.show()
+print(f"{timem*60}s")
+print(f"Net Typing speed: {int(correct_words/timem)} words/min")
+print(f"Gross Typing speed: {int(len(register)/timem)} words/min")
+print(f"Accuracy: {(correct_words/len(register))*100}%")
