@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 
 
 words = [[],[],[],[],[],[]]
@@ -66,11 +67,16 @@ for i in range(len(words)):
 print(register)
 print(len(register))
 
-wlen = [0,0,0,0,0,0]
+wlen = [0 for i in range(11)]
 for word in register:
     for i in range(6):
         if len(word) == i+5:
-            wlen[i] += 1
+            wlen[i+5] += 1
 
 for i in range(6):
-    print(f"{i+5} letter words: {wlen[i]}")
+    print(f"{i+5} letter words: {wlen[i+5]}")
+
+plt.plot(wlen)
+plt.xlabel("Length of the words")
+plt.ylabel("Number of words")
+plt.show()
