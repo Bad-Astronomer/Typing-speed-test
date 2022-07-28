@@ -16,6 +16,11 @@ def devlog():
     for i in range(6):
         print(f"{i+5} letter words: {wlen[i+5]}")
 
+    chars = 0
+    for i in range(6):
+        chars += (5+i)*int(2**(n-i-1))
+    print(f"Total no. of characters: {chars}")
+
     plt.plot(wlen)
     plt.xlabel("Length of the words")
     plt.ylabel("Number of words")
@@ -124,19 +129,17 @@ for word in register:
     word = word.replace(" ","")
     print(f"WORD({i}/{len(register)})): {word.upper()}")
     inp = input(">>> ")
+
     if inp.lower() == word.lower():
         correct_words += 1
     user_input.append(inp)
     toc = time.time()
     timem = (toc - tic)/60
-    print(f"\nspeed = {int(correct_words/timem)} words/min @{toc-tic}s")
+    print(f"\nSpeed: {int(correct_words/timem)} words/min @{toc-tic}s.")
+
 toc = time.time()
 timem = (toc - tic)/60
 newline()
-
-chars = 0
-for i in range(6):
-    chars += (5+i)*int(2**(n-i-1))
 
 charv = 0
 for inp in user_input:
@@ -145,6 +148,8 @@ for inp in user_input:
 print(f"Total Time: {timem*60}s.")
 print(f"Net Typing speed: {int(correct_words/timem)} words/min.")
 print(f"Gross Typing speed: {int(len(register)/timem)} words/min.")
-print(f"Net Accuracy: {(correct_words/len(register))*100}% of words.")
-print(f"Characters per minute: {charv/timem} cpm.")
-print(f"Character Ratio: {charv/chars}.")
+print(f"Net Accuracy: {(correct_words/len(register))*100}% of words.\n")
+print(f"Characters per minute: {int(charv/timem)} cpm.")
+print(f"Approx. Typing speed: {int(charv/(5*timem))} words/min.")
+
+newline()
